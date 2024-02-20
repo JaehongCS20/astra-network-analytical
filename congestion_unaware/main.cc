@@ -201,12 +201,33 @@ int main(int argc, char* argv[]) {
     // Run
     //-------------------------------------------------------------------------
     for (int i = 0; i < num_npus; i++) {
+      // check workload before fire
+      // cout << "sys[" << i << "] " << endl;
+      // systems[i]->workload->et_feeder->printGraph();
+      // fire the workload
       systems[i]->workload->fire();
     }
 
     while (!event_queue->empty()) {
       event_queue->proceed();
     }
+
+    // check non exited system
+    cout << "Checking Non-Exited Systems ..." << endl;
+    bool done = true;
+    for (int npu_id = 0; npu_id < num_npus; npu_id++) {
+
+      if (systems[npu_id]->workload->is_finished == false){
+        cout << "sys[" << npu_id << "] " << endl;
+        systems[npu_id]->workload->et_feeder->printGraph();
+      }
+    }
+    if (done){
+      cout << "---------------------------" << endl;
+      cout << "All Request Has Been Exited" << endl;
+      cout << "---------------------------" << endl;
+    }
+
     //-------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------
