@@ -208,7 +208,7 @@ int main(int argc, char* argv[]) {
       systems[i]->workload->fire();
     }
 
-    while (!event_queue->empty()) {
+    while (!event_queue->empty()) { // TODO: Make this to true
       event_queue->proceed();
     }
 
@@ -220,11 +220,17 @@ int main(int argc, char* argv[]) {
       if (systems[npu_id]->workload->is_finished == false){
         cout << "sys[" << npu_id << "] " << endl;
         systems[npu_id]->workload->et_feeder->printGraph();
+        done = false;
       }
     }
     if (done){
       cout << "---------------------------" << endl;
       cout << "All Request Has Been Exited" << endl;
+      cout << "---------------------------" << endl;
+    }
+    else{
+      cout << "---------------------------" << endl;
+      cout << "ERROR: Some Requests Remain" << endl;
       cout << "---------------------------" << endl;
     }
 
