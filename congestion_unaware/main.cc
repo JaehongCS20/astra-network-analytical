@@ -208,8 +208,37 @@ int main(int argc, char* argv[]) {
       systems[i]->workload->fire();
     }
 
-    while (!event_queue->empty()) { // TODO: Make this to true
-      event_queue->proceed();
+    // while (!event_queue->empty()) {
+    //     event_queue->proceed();
+    // }
+
+    bool exit = false;
+    while (!exit) {
+      if(!event_queue->empty()){
+        event_queue->proceed();
+      }
+      else {
+        event_queue->add_current_time();
+      }
+      for (int i = 0; i < num_npus; i++) {
+        if(systems[i]->workload->is_finished){
+          systems[i]->workload->report();
+          cout << "Waiting" << endl;
+          string new_filename;
+          getline(cin, new_filename);
+          if (new_filename.compare("pass") == 0){ // if pass
+            continue;
+          }
+          else if (new_filename.compare("exit") == 0){ // exit the simulator
+            exit = true;
+            break;
+          }
+          else{ // add new worklaod
+            // cout << "Adding " << new_filename << endl;
+            systems[i]->workload->addWorkload(new_filename);
+          }
+        }
+      }
     }
 
     // check non exited system

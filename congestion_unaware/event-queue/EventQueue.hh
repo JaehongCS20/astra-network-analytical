@@ -33,8 +33,10 @@ class EventQueue {
   void proceed() noexcept;
 
   [[nodiscard]] AstraSim::timespec_t get_current_time() const noexcept;
-
+  // Adding 1 tick to current time. Erasing const for mutation
+  [[nodiscard]] AstraSim::timespec_t add_current_time() noexcept;
   [[nodiscard]] bool empty() const noexcept;
+
 
   void print() const noexcept;
 
