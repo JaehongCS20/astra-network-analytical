@@ -22,7 +22,7 @@ HierarchicalTopology::HierarchicalTopology(
     auto links_count = hierarchy_config.getLinksCountForDim(dim);
     auto link_bandwidth = hierarchy_config.getLinkBandwidthForDim(dim);
     auto topology_size = configs[dim].getNpusCount();
-    auto adjacent_packages_count = topology_size - 1;
+    auto adjacent_packages_count = (topology_size == 1) ? 1 : topology_size - 1;
 
     auto bandwidth_scalar = 1.0;
 
