@@ -90,7 +90,7 @@ AstraSim::timespec_t EventQueue::get_current_time() const noexcept {
 }
 
 AstraSim::timespec_t EventQueue::add_current_time() noexcept {
-  current_time.time_val++;
+  current_time.time_val = current_time.time_val + 100;
   return current_time;
 }
 
